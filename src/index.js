@@ -1,11 +1,21 @@
+import { entries } from "@tonaljs/chord-dictionary";
+import { chord } from "@tonaljs/chord";
+
 const startNotes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B']; 
 const startNotesSelector = document.querySelector('#start-note')
 const octavesSelector = document.querySelector('#octave')
+const buttons = document.querySelector('.buttons')
+
+let selectedStartNote;
+let selectedOctave;
+let selectedChord;
 
 const app = {
     init(){ //um metodo criado para unificar a chamada lá embaixo 
         this.setupStartNotes();
         this.setupOctaves();
+        this.setupButtons();
+        this.setupEventListener();
     },
 
     setupStartNotes() { //conf start notes
@@ -22,6 +32,38 @@ const app = {
             let octavesNumber = this.createElement('option', i) //passa do 1 ao 7 e chama o createElement do app
             octavesSelector.appendChild(octavesNumber) //passa 7 opções para o octavesSelector
         }
+    },
+
+    setupButtons() {
+        const chordNames = entries().map(itens => {
+            return itens.aliases[0]
+        });
+        chordNames.forEach(itens => {
+            let chordButton = this.createElement('button', itens)
+            buttons.appendChild(chordButton)
+        })
+    },
+
+    setupEventListener() {
+        startNotesSelector.addEventListener('change', () => {
+            selectedStartNote = startNotesSelector.value;
+            console.log(selectedStartNote)
+        })
+        octavesSelector.addEventListener('change', () => {
+            selectedOctave = octavesSelector.value;
+            console.log(selectedOctave)
+        })
+        buttons.addEventListener('click', (event) => {
+            if(event.target.classList.contains('buttons')) {
+                return;
+            }
+            selectedChord = event.target.innerHTML;
+            this.displayChordInfo(selectedChord);
+        })
+    },  
+
+    displayChordInfo(selectedChord) {
+        console.log(chord(selectedChord))
     },
 
     createElement(elementName, content) { //famossa HOF

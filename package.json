@@ -7,6 +7,7 @@
   "main": "index.js",
   "dependencies": {
     "@tonaljs/chord": "^6.0.0",
+    "@tonaljs/chord-dictionary": "^4.8.4",
     "@tonaljs/tonal": "^4.10.0",
     "abortcontroller-polyfill": "^1.7.5",
     "ansi-styles": "^4.3.0",
