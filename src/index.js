@@ -1,6 +1,6 @@
 import { entries } from "@tonaljs/chord-dictionary";
 import { chord } from "@tonaljs/chord";
-import { transpose } from "@tonaljs/tonal";
+import { transpose, note } from "@tonaljs/tonal";
 import { Howler, Howl } from "howler";
 
 const sound = new Howl({
@@ -62,36 +62,35 @@ const app = {
     setupEventListener() {
         startNotesSelector.addEventListener('change', () => {
             selectedStartNote = startNotesSelector.value;
-            console.log(selectedStartNote)
         })
         octavesSelector.addEventListener('change', () => {
             selectedOctave = octavesSelector.value;
-            console.log(selectedOctave)
         })
         buttons.addEventListener('click', (event) => {
             if(event.target.classList.contains('buttons')) {
                 return;
             }
             selectedChord = event.target.innerHTML;
-            this.displayChordInfo(selectedChord);
+            this.displayAndPlayChord(selectedChord);
         })
     },  
 
-    displayChordInfo(selectedChord) {
+    displayAndPlayChord(selectedChord) {
         let chordINterval = chord(selectedChord).intervals
-        intervalInChord.innerHTML = chordINterval.join(' - ')
+        intervalInChord.innerText = chordINterval.join(' - ')
         
         const startNoteWithOctave = selectedStartNote + selectedOctave
         let chordNotes = chordINterval.map(val => {
             return transpose(startNoteWithOctave, val);
         })
-        notesInChord.innerHTML = chordNotes.join(' - ');
+        notesInChord.innerText = chordNotes.join(' - ');
+        soundEngine.play(chordNotes)
     },
 
     createElement(elementName, content) { //famossa HOF
         let element = document.createElement(elementName); //element passa a ser um document.createElement, recebe elementName os options acima
         element.innerHTML = content; //e como segundo parametro, passa o conteudo, sendo noteName ou i
-        return element
+        return element;
     }
 }
 
@@ -103,7 +102,17 @@ const soundEngine = {
             sound['_sprite'][i] = [timeIndex, lengthOfNote]
                 timeIndex += lengthOfNote;
         }
-        sound.play('48');
+    },
+    play(soundSequence) {
+
+        const chordMidiNumbers = soundSequence.map(noteName => {
+            return note(noteName).midi;
+        }); 
+
+        sound.volume(60);
+        chordMidiNumbers.forEach(noteMidNumbers => {
+            sound.play(noteMidNumbers.toString())
+        });
     }
 }
 
