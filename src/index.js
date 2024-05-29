@@ -1,6 +1,18 @@
 import { entries } from "@tonaljs/chord-dictionary";
 import { chord } from "@tonaljs/chord";
 import { transpose } from "@tonaljs/tonal";
+import { Howler, Howl } from "howler";
+
+const sound = new Howl({
+    src: ['assets/pianosprite.mp3'],
+    onload(){
+        console.log('sound file has been load. do something here')
+        soundEngine.init()
+    },
+    onloaderror(e, msg){
+        console.log('error', e, msg)
+    }
+})
 
 const startNotes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B']; 
 const startNotesSelector = document.querySelector('#start-note')
@@ -80,6 +92,18 @@ const app = {
         let element = document.createElement(elementName); //element passa a ser um document.createElement, recebe elementName os options acima
         element.innerHTML = content; //e como segundo parametro, passa o conteudo, sendo noteName ou i
         return element
+    }
+}
+
+const soundEngine = {
+    init() {
+        const lengthOfNote = 2400;
+        let timeIndex = 0
+        for(let i = 24; i <= 96; i++) {
+            sound['_sprite'][i] = [timeIndex, lengthOfNote]
+                timeIndex += lengthOfNote;
+        }
+        sound.play('48');
     }
 }
 
