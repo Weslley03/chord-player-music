@@ -1,13 +1,16 @@
 import { entries } from "@tonaljs/chord-dictionary";
 import { chord } from "@tonaljs/chord";
+import { transpose } from "@tonaljs/tonal";
 
 const startNotes = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B']; 
 const startNotesSelector = document.querySelector('#start-note')
 const octavesSelector = document.querySelector('#octave')
 const buttons = document.querySelector('.buttons')
+const intervalInChord = document.querySelector('.intervals-in-chord')
+const notesInChord = document.querySelector('.notes-in-chord')
 
-let selectedStartNote;
-let selectedOctave;
+let selectedStartNote = 'C'
+let selectedOctave = 1
 let selectedChord;
 
 const app = {
@@ -63,7 +66,14 @@ const app = {
     },  
 
     displayChordInfo(selectedChord) {
-        console.log(chord(selectedChord))
+        let chordINterval = chord(selectedChord).intervals
+        intervalInChord.innerHTML = chordINterval.join(' - ')
+        
+        const startNoteWithOctave = selectedStartNote + selectedOctave
+        let chordNotes = chordINterval.map(val => {
+            return transpose(startNoteWithOctave, val);
+        })
+        notesInChord.innerHTML = chordNotes.join(' - ');
     },
 
     createElement(elementName, content) { //famossa HOF
