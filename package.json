@@ -6,6 +6,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@tonaljs/chord": "^6.0.0",
+    "@tonaljs/tonal": "^4.10.0",
     "abortcontroller-polyfill": "^1.7.5",
     "ansi-styles": "^4.3.0",
     "argparse": "^2.0.1",

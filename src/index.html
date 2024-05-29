@@ -3,10 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>spread music</title>
 </head>
 <body>
-    <h1>Hello World !</h1>
-    <script src="index.js"></script>
+    <div class="controls">
+        <label for="start-note">start note:</label>
+        <select name="start-note" id="start-note">
+            <option value="">C</option>
+            <option value="">D</option>
+            <option value="">E</option>
+            <option value="">F</option>
+            <option value="">G</option>
+            <option value="">A</option> 
+        </select>
+        <label for="octave">octave:</label>
+        <select name="octave" id="octave">
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+        </select>
+    </div>
+    <div class="chord-notes">
+        <p class="notes-in-chord">C3 - D3 - E3 - F#3 - A3</p>
+        <p class="intervals-in-chord">P1 - N3 - P5 - M7</p>
+    </div>
+    <div class="buttons">
+        <button>Major</button>
+        <button>Minor</button>
+        <button>Diminished</button>
+        <button>Augmented</button>
+    </div>
+    <script  type="module" src="index.js"></script>
 </body>
 </html>
