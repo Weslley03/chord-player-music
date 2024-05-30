@@ -50,10 +50,10 @@ const app = {
     },
 
     setupButtons() {
-        const chordNames = entries().map(itens => {
+        const chordNames = entries().map(itens => { //puxa todos os nomes dos acordes presentes na biblioteca 
             return itens.aliases[0]
         });
-        chordNames.forEach(itens => {
+        chordNames.forEach(itens => { //põe todos esses nomes como opções no button
             let chordButton = this.createElement('button', itens)
             buttons.appendChild(chordButton)
         })
@@ -76,11 +76,11 @@ const app = {
     },  
 
     displayAndPlayChord(selectedChord) {
-        let chordINterval = chord(selectedChord).intervals
-        intervalInChord.innerText = chordINterval.join(' - ')
+        let chordInterval = chord(selectedChord).intervals
+        intervalInChord.innerText = chordInterval.join(' - ')
         
         const startNoteWithOctave = selectedStartNote + selectedOctave
-        let chordNotes = chordINterval.map(val => {
+        let chordNotes = chordInterval.map(val => {
             return transpose(startNoteWithOctave, val);
         })
         notesInChord.innerText = chordNotes.join(' - ');
@@ -96,13 +96,14 @@ const app = {
 
 const soundEngine = {
     init() {
-        const lengthOfNote = 2400;
+        const lengthOfNote = 2400; //corta cada nota em 2400 milesegundos
         let timeIndex = 0
-        for(let i = 24; i <= 96; i++) {
-            sound['_sprite'][i] = [timeIndex, lengthOfNote]
+        for(let i = 24; i <= 96; i++) { //divide todas as notas
+            sound['_sprite'][i] = [timeIndex, lengthOfNote] //corta o audio em sprite
                 timeIndex += lengthOfNote;
         }
     },
+    
     play(soundSequence) {
 
         const chordMidiNumbers = soundSequence.map(noteName => {
